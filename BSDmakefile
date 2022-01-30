@@ -106,6 +106,14 @@ AULA0604OBJS = aula0601.o aula0604.o
 AULA0605OBJS = aula0601.o aula0605.o
 AULA0606OBJS = aula0601.o aula0606.o
 # -- Roteiro 6 /\ ---------------------------------------------------------------------------------
+
+# -- Roteiro 7 \/ ---------------------------------------------------------------------------------
+AULA07 = aula0702
+
+AULA0702OBJS = aula0701.o aula0702.o
+
+
+# -- Roteiro 7 /\ ---------------------------------------------------------------------------------
 # /\ OBJS MACROS/\ --------------------------------------------------------------------------------
 
 
@@ -120,8 +128,12 @@ LIBMATEMATICAWHILEOBJS = aula0201d.o aula0301d.o aula0401d.o aula0403d.o
 # -- Roteiro 6 \/ ---------------------------------------------------------------------------------
 LIBMATEMATICAOBJS = aula0601.o
 LIBMATEMATICA = libmatematica.a
-
 # -- Roteiro 6 /\ ---------------------------------------------------------------------------------
+
+# -- Roteiro 7 \/ ---------------------------------------------------------------------------------
+LIBMONITOROBJS = aula0701.o
+LIBMONITOR = libmonitor.a
+# -- Roteiro 7 /\ ---------------------------------------------------------------------------------
 # /\ LIBS MACROS/\ --------------------------------------------------------------------------------
 
 
@@ -157,7 +169,8 @@ EXECS = aula0101\
 		aula0603\
 		aula0604\
 		aula0605\
-		aula0606
+		aula0606\
+		aula0702
 
 
 LIBS =	libmatematicarecursao.a\
@@ -166,7 +179,8 @@ LIBS =	libmatematicarecursao.a\
 	libmatematicawhile.a\
 	libmonitor.a\
 	libbase.a\
-	libmatematica.a
+	libmatematica.a\
+	libmonitor.a
 
 
 ALL = $(EXECS) $(LIBS)
@@ -358,6 +372,17 @@ aula0606: $(AULA0606OBJS)
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
 # -- Roteiro 6 /\ ----------------------------------------------------------------------------------
 
+# -- Roteiro 7 \/ ----------------------------------------------------------------------------------
+aula07: $(AULA07)
+
+libmonitor.a: $(LIBMONITOROBJS)
+	ar -r -c $@ $(LIBMONITOROBJS)
+
+aula0702: $(AULA0702OBJS)
+	$(LD) $(LFLAGS) -o $@ $(AULA0702OBJS)
+	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
+
+# -- Roteiro 7 /\ ----------------------------------------------------------------------------------
 
 
 .PHONY: clean clean-all clean-objs clean-freebsd clean-linux clean-gcc clean-clang clean-ansi clean-c89 clean-c90 clean-c99 clean-c11
