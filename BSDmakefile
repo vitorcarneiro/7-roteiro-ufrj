@@ -111,7 +111,7 @@ AULA0606OBJS = aula0601.o aula0606.o
 AULA07 = aula0702 aula0703
 
 AULA0702OBJS = aula0701.o aula0702.o
-AULA0703OBJS = aula0701.o aula0703.o
+AULA0703OBJS = aula0701.o aula0703.o libmonitor.a
 
 
 # -- Roteiro 7 /\ ---------------------------------------------------------------------------------
@@ -385,7 +385,7 @@ aula0702: $(AULA0702OBJS)
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
 
 aula0703: $(AULA0703OBJS)
-	$(LD) $(LFLAGS) -o $@ $(AULA0703OBJS)
+	$(LD) $(LFLAGS) -o $@ $(AULA0703OBJS) -L. -lmonitor
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
 
 # -- Roteiro 7 /\ ----------------------------------------------------------------------------------

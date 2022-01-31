@@ -104,7 +104,7 @@ AULA0506BOBJS = aula0504.o aula0506b.o
 # -- Roteiro 5 /\ ---------------------------------------------------------------------------------
 
 # -- Roteiro 6 \/ ---------------------------------------------------------------------------------
-AULA06 = aula0602 aula0603 aula0604 aula0605 aula0606 libmatematica.a
+AULA06 = aula0602 aula0603 aula0604 aula0605 aula0606
 
 AULA0602OBJS = aula0601.o aula0602.o
 AULA0603OBJS = aula0601.o aula0603.o
@@ -117,7 +117,7 @@ AULA0606OBJS = aula0601.o aula0606.o
 AULA07 = aula0702 aula0703
 
 AULA0702OBJS = aula0701.o aula0702.o
-AULA0703OBJS = aula0701.o aula0703.o
+AULA0703OBJS = aula0701.o aula0703.o libmonitor.a
 
 
 # -- Roteiro 7 /\ ---------------------------------------------------------------------------------
@@ -390,7 +390,7 @@ aula0702: $(AULA0702OBJS)
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
 
 aula0703: $(AULA0703OBJS)
-	$(LD) $(LFLAGS) -o $@ $(AULA0703OBJS)
+	$(LD) $(LFLAGS) -o $@ $(AULA0703OBJS) -L. -lmonitor
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
 
 
