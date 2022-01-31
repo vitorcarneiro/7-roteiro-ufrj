@@ -86,28 +86,18 @@ GerarDistribuicaoInicial(tipoPixel monitor[NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_C
     unsigned indiceLinha, indiceColuna;	
 
     if (!monitor || !numeroMaximoLinhas || !numeroMaximoColunas)
-    {
-        printf("entrou em: argumentoInvalido \n");
 		return argumentoInvalido;
-    }
 
     if (numeroMaximoLinhas > NUMERO_MAXIMO_LINHAS || numeroMaximoLinhas <= 0)
-    {
-        printf("entrou em: numeroLinhasInvalido \n");
 		return numeroLinhasInvalido;
-    }
 
 	if (numeroMaximoColunas > NUMERO_MAXIMO_COLUNAS || numeroMaximoColunas <= 0)
-    {
-        printf("entrou em: numeroColunasInvalido \n");
 		return numeroColunasInvalido;
-    }
 
     if (percentualDefeituosos < 0 || percentualDefeituosos > 100 || percentualApagados < 0 || percentualApagados > 100)
     {
-        printf("entrou em: valorPercentualInvalido \n");
         return valorPercentualInvalido;
-    }   
+    }
 
 	srand((unsigned) time (NULL)); /* Muda a semente para aletoaridade*/
 
@@ -127,6 +117,31 @@ GerarDistribuicaoInicial(tipoPixel monitor[NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_C
 		}
     }
 
+	return ok;
+}
+
+tipoErros
+LimparMonitor(tipoPixel monitor[NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_COLUNAS], /* E/S */
+				unsigned numeroMaximoLinhas, /* E */
+				unsigned numeroMaximoColunas)
+{
+    unsigned indiceLinha, indiceColuna;	
+
+    if (!monitor || !numeroMaximoLinhas || !numeroMaximoColunas)
+		return argumentoInvalido;
+
+    if (numeroMaximoLinhas > NUMERO_MAXIMO_LINHAS || numeroMaximoLinhas <= 0)
+		return numeroLinhasInvalido;
+
+	if (numeroMaximoColunas > NUMERO_MAXIMO_COLUNAS || numeroMaximoColunas <= 0)
+		return numeroColunasInvalido;
+
+    /* monitor recebe valores aleatorios de -1 a 1 que representam pixels*/	
+	for (indiceLinha = 0; indiceLinha < numeroMaximoLinhas; indiceLinha++)
+		for (indiceColuna = 0; indiceColuna < numeroMaximoColunas; indiceColuna++)
+			if (monitor[indiceLinha][indiceColuna] == aceso)
+				monitor[indiceLinha][indiceColuna] = apagado;
+		
 	return ok;
 }
 

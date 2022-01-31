@@ -114,9 +114,10 @@ AULA0606OBJS = aula0601.o aula0606.o
 # -- Roteiro 6 /\ ---------------------------------------------------------------------------------
 
 # -- Roteiro 7 \/ ---------------------------------------------------------------------------------
-AULA07 = aula0702
+AULA07 = aula0702 aula0703
 
 AULA0702OBJS = aula0701.o aula0702.o
+AULA0703OBJS = aula0701.o aula0703.o
 
 
 # -- Roteiro 7 /\ ---------------------------------------------------------------------------------
@@ -178,7 +179,8 @@ EXECS = aula0101\
 		aula0604\
 		aula0605\
 		aula0606\
-		aula0702
+		aula0702\
+		aula0703
 
 LIBS =	libmatematicarecursao.a\
 	libmatematicadowhile.a\
@@ -386,6 +388,11 @@ libmonitor.a: $(LIBMONITOROBJS)
 aula0702: $(AULA0702OBJS)
 	$(LD) $(LFLAGS) -o $@ $(AULA0702OBJS)
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
+
+aula0703: $(AULA0703OBJS)
+	$(LD) $(LFLAGS) -o $@ $(AULA0703OBJS)
+	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
+
 
 # -- Roteiro 7 /\ ----------------------------------------------------------------------------------
 
