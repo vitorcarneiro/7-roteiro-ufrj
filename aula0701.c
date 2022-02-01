@@ -145,4 +145,206 @@ LimparMonitor(tipoPixel monitor[NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_COLUNAS], /*
 	return ok;
 }
 
+
+tipoErros
+DesenharReta (tipoPixel monitor[NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_COLUNAS], /* E/S */
+				unsigned numeroMaximoLinhas, /* E */
+				unsigned numeroMaximoColunas, /* E */
+				unsigned linhaA, /* E */
+				unsigned colunaA, /* E */
+				unsigned linhaB, /* E */
+				unsigned colunaB) /* E */
+{
+/* (colunaA - colunaB)x + (linhaA * colunaB - linhaB * colunaA) = (linhaA - linhaB)y*/
+	unsigned indiceLinha, indiceColuna;
+	long a, b, c;
+	float termo1, termo2, margemErro;
+
+	if (numeroMaximoLinhas > NUMERO_MAXIMO_LINHAS)
+		return numeroLinhasInvalido;
+
+	if (numeroMaximoColunas > NUMERO_MAXIMO_COLUNAS)
+		return numeroColunasInvalido;
+
+	if (linhaA > numeroMaximoLinhas || linhaB > numeroMaximoLinhas || linhaA < 1 || linhaB < 1)
+		return pontoLinhaInvalido;
+
+	if (colunaA > numeroMaximoColunas || colunaB > numeroMaximoColunas || colunaA < 1 || colunaB < 1)
+		return pontoColunaInvalido;
+
+	if (!monitor || !numeroMaximoLinhas || !numeroMaximoColunas || !linhaA || !colunaA || !linhaB || !colunaB)
+        return argumentoInvalido;
+
+	/* variaveis definidas para constantes da equacao da reta*/
+	
+	a = (long) colunaA - (long) colunaB;
+	b = ((long) linhaA * (long) colunaB) - ((long) linhaB * (long) colunaA);
+	c = (long) linhaA - (long) linhaB;
+
+	if (a == 0)
+	{
+		for (indiceLinha = 1; indiceLinha <= numeroMaximoLinhas; indiceLinha++)
+			for (indiceColuna = 1; indiceColuna <= numeroMaximoColunas; indiceColuna++)
+			{
+				if (monitor[indiceLinha - 1][indiceColuna - 1] == defeituoso)
+					return encontradoPixelDefeituoso;
+			
+				if (linhaB >= linhaA)
+					if (indiceColuna == colunaB && indiceLinha <= linhaB && indiceLinha >= linhaA)
+						monitor[indiceLinha - 1][indiceColuna - 1] = aceso;
+
+				if (linhaA >= linhaB)
+					if (indiceColuna == colunaA && indiceLinha <= linhaA && indiceLinha >= linhaB)
+						monitor[indiceLinha - 1][indiceColuna - 1] = aceso;
+			}
+
+		return ok;
+	}
+
+	if (c == 0)
+	{
+		for (indiceLinha = 1; indiceLinha <= numeroMaximoLinhas; indiceLinha++)
+			for (indiceColuna = 1; indiceColuna <= numeroMaximoColunas; indiceColuna++)
+			{
+				if (monitor[indiceLinha - 1][indiceColuna - 1] == defeituoso)
+					return encontradoPixelDefeituoso;
+			
+				if (colunaB >= colunaA)
+					if (indiceLinha == linhaB && indiceColuna <= colunaB && indiceColuna >= colunaA)
+						monitor[indiceLinha - 1][indiceColuna - 1] = aceso;
+
+				if (colunaA >= colunaB)
+					if (indiceLinha == linhaA && indiceColuna <= colunaA && indiceColuna >= colunaB)
+						monitor[indiceLinha - 1][indiceColuna - 1] = aceso;
+			}
+
+		return ok;
+	}
+
+	if (b == 0) {
+		for (indiceLinha = 1; indiceLinha <= numeroMaximoLinhas; indiceLinha++)
+			for (indiceColuna = 1; indiceColuna <= numeroMaximoColunas; indiceColuna++)
+			{	
+				termo1 = a * indiceLinha + b;
+				termo2 = c * indiceColuna;
+				margemErro = 0;
+
+				if (linhaB >= linhaA && colunaB >= colunaA) /* (1,1) (50,50) */
+					if (indiceLinha >= linhaA && indiceColuna >= colunaA && indiceLinha <= linhaB && indiceColuna <= colunaB)
+					{
+						if (monitor[indiceLinha - 1][indiceColuna - 1] == defeituoso)
+							return encontradoPixelDefeituoso;
+				
+						else
+							if (termo2 / termo1 <= 1 + margemErro && termo2 / termo1 >= 1 - margemErro)
+								monitor[indiceLinha - 1][indiceColuna - 1] = aceso;
+					}
+				
+			
+				if (linhaB <= linhaA && colunaB <= colunaA) /* (50,50) (1,1) */
+				{
+					if (indiceLinha >= linhaB && indiceColuna >= colunaB && indiceLinha <= linhaA && indiceColuna <= colunaA)
+					{
+						if (monitor [indiceLinha - 1][indiceColuna - 1] == defeituoso)
+							return encontradoPixelDefeituoso;
+				
+						else
+							if (termo2 / termo1 <= 1 + margemErro && termo2 / termo1 >= 1 - margemErro)
+								monitor[indiceLinha - 1][indiceColuna - 1] = aceso;
+					}
+				}
+			
+				if (linhaB <= linhaA && colunaA <= colunaB) /* (50,1) (1,50) */
+				{
+					if (indiceLinha >= linhaB && indiceColuna >= colunaA && indiceLinha <= linhaA && indiceColuna <= colunaB)
+					{
+						if (monitor [indiceLinha - 1][indiceColuna - 1] == defeituoso)
+							return encontradoPixelDefeituoso;
+				
+						else
+							if (a * indiceLinha + b == c * indiceColuna)
+								monitor [indiceLinha - 1][indiceColuna - 1] = aceso;
+					}
+				}
+			
+				if (linhaA <= linhaB && colunaB <= colunaA) /* (1,50) (50,1) */
+				{
+					if (indiceLinha >= linhaA && indiceColuna >= colunaB && indiceLinha <= linhaB && indiceColuna <= colunaA)
+					{
+						if (monitor [indiceLinha - 1][indiceColuna - 1] == defeituoso)
+							return encontradoPixelDefeituoso;
+				
+						else
+							if (a * indiceLinha + b == c * indiceColuna)
+								monitor [indiceLinha - 1][indiceColuna - 1] = aceso;	
+					}
+				}
+			}
+
+		return ok;
+	}
+
+
+	for (indiceLinha = 1; indiceLinha <= numeroMaximoLinhas; indiceLinha++)
+		for (indiceColuna = 1; indiceColuna <= numeroMaximoColunas; indiceColuna++)
+		{	
+			termo1 = a * indiceLinha + b;
+			termo2 = c * indiceColuna;
+			margemErro = 0.05 * termo2/termo1;
+
+			if (linhaB >= linhaA && colunaB >= colunaA) /* (1,1) (50,50) */
+				if (indiceLinha >= linhaA && indiceColuna >= colunaA && indiceLinha <= linhaB && indiceColuna <= colunaB)
+				{
+					if (monitor[indiceLinha - 1][indiceColuna - 1] == defeituoso)
+						return encontradoPixelDefeituoso;
+			
+					else
+						if (termo2 / termo1 <= 1 + margemErro && termo2 / termo1 >= 1 - margemErro)
+							monitor[indiceLinha - 1][indiceColuna - 1] = aceso;
+				}
+			
+		
+			if (linhaB <= linhaA && colunaB <= colunaA) /* (50,50) (1,1) */
+			{
+				if (indiceLinha >= linhaB && indiceColuna >= colunaB && indiceLinha <= linhaA && indiceColuna <= colunaA)
+				{
+					if (monitor [indiceLinha - 1][indiceColuna - 1] == defeituoso)
+						return encontradoPixelDefeituoso;
+			
+					else
+						if (termo2 / termo1 <= 1 + margemErro && termo2 / termo1 >= 1 - margemErro)
+							monitor[indiceLinha - 1][indiceColuna - 1] = aceso;
+				}
+			}
+		
+			if (linhaB <= linhaA && colunaA <= colunaB) /* (50,1) (1,50) */
+			{
+				if (indiceLinha >= linhaB && indiceColuna >= colunaA && indiceLinha <= linhaA && indiceColuna <= colunaB)
+				{
+					if (monitor [indiceLinha - 1][indiceColuna - 1] == defeituoso)
+						return encontradoPixelDefeituoso;
+			
+					else
+						if (a * indiceLinha + b == c * indiceColuna)
+							monitor [indiceLinha - 1][indiceColuna - 1] = aceso;
+				}
+			}
+		
+			if (linhaA <= linhaB && colunaB <= colunaA) /* (1,50) (50,1) */
+			{
+				if (indiceLinha >= linhaA && indiceColuna >= colunaB && indiceLinha <= linhaB && indiceColuna <= colunaA)
+				{
+					if (monitor [indiceLinha - 1][indiceColuna - 1] == defeituoso)
+						return encontradoPixelDefeituoso;
+			
+					else
+						if (a * indiceLinha + b == c * indiceColuna)
+							monitor [indiceLinha - 1][indiceColuna - 1] = aceso;
+				}
+			}
+		}
+
+	return ok;
+}
+
 /* $RCSfile$ */
