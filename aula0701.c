@@ -109,7 +109,7 @@ GerarDistribuicaoInicial(tipoPixel monitor[NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_C
 			if (percentualDefeituosos != 0 && rand() % 101 < percentualDefeituosos)
 				monitor[indiceLinha][indiceColuna] = defeituoso;
 			
-			else if (percentualApagados != 0 && rand() % 101 < percentualDefeituosos + percentualApagados)
+			else if (percentualApagados != 0 && rand() % 101 <= percentualDefeituosos + percentualApagados)
 				monitor[indiceLinha][indiceColuna] = apagado;
 			
 			else
@@ -344,6 +344,35 @@ DesenharReta (tipoPixel monitor[NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_COLUNAS], /*
 			}
 		}
 
+	return ok;
+}
+
+tipoErros
+DesenharPoligono (tipoPixel monitor [NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_COLUNAS], 
+		unsigned numeroMaximoLinhas, 
+		unsigned numeroMaximoColunas, 
+		unsigned numeroVertices, 
+		unsigned linhasVertices[NUMERO_MAXIMO_LINHAS], 
+		unsigned colunasVertices[NUMERO_MAXIMO_COLUNAS])
+{
+
+	int indice;
+	tipoErros codigoRetorno;
+
+	for (indice = 0; indice < numeroVertices - 1 ; indice++)
+	{
+		codigoRetorno = DesenharReta(&monitor[0], numeroMaximoLinhas, numeroMaximoColunas, linhasVertices[indice],
+										colunasVertices[indice], linhasVertices[indice + 1], colunasVertices[indice + 1]);
+		if(codigoRetorno != ok)
+			return codigoRetorno;
+	}
+
+		codigoRetorno = DesenharReta (&monitor[0], numeroMaximoLinhas, numeroMaximoColunas, linhasVertices[numeroVertices-1],
+										colunasVertices[numeroVertices - 1], linhasVertices[0], colunasVertices[0]);
+
+		if(codigoRetorno != ok)
+			return codigoRetorno;
+	
 	return ok;
 }
 

@@ -69,6 +69,13 @@ DesenharReta (tipoPixel monitor[NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_COLUNAS], /*
 				unsigned linhaB, /* E */
 				unsigned colunaB /* E */);
 
+tipoErros
+DesenharPoligono (tipoPixel monitor [NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_COLUNAS], /* E/S */
+					unsigned numeroMaximoLinhas, /* E */
+					unsigned numeroMaximoColunas, /* E */
+					unsigned numeroVertices, /* E */
+					unsigned linhasVertices[NUMERO_MAXIMO_LINHAS], /* E */
+					unsigned colunasVertices[NUMERO_MAXIMO_COLUNAS] /* E */);
 
 #endif
 
