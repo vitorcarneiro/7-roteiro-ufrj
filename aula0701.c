@@ -376,4 +376,86 @@ DesenharPoligono (tipoPixel monitor [NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_COLUNAS
 	return ok;
 }
 
+tipoErros
+PreencherPoligono (useconds_t tempoEspera,
+					tipoPixel monitor[NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_COLUNAS], 
+					unsigned numeroMaximoLinhas, 
+					unsigned numeroMaximoColunas, 
+					unsigned linha, 
+					unsigned coluna)
+{
+	unsigned coordenadas[NUMERO_MAXIMO_LINHAS * NUMERO_MAXIMO_COLUNAS * 2];
+	unsigned indice, indicePontos = 0;
+	unsigned contador = 1;	
+	signed indiceLinha, indiceColuna;
+	linha--;
+	coluna--;
+
+	coordenadas[0] = linha;
+	coordenadas[1] = coluna;
+	
+	if (linha > numeroMaximoLinhas)
+		return pontoLinhaInvalido;
+
+	if (coluna > numeroMaximoColunas)
+		return pontoColunaInvalido;
+
+	if (monitor[linha][coluna] == aceso)
+		return pontoNaLinha;
+
+	for (indice = 0; indice < contador; indice++)
+	{
+		indiceLinha = coordenadas[indice + indicePontos];
+		indiceColuna = coordenadas[indice + 1 + indicePontos];
+		indicePontos++;
+		
+		if(monitor[linha][coluna] == defeituoso)
+			return encontradoPixelDefeituoso;
+
+		monitor[indiceLinha][indiceColuna] = aceso;
+		MostrarMonitor(tempoEspera, &monitor[0], numeroMaximoLinhas, numeroMaximoColunas);
+		
+		if(monitor[indiceLinha][indiceColuna] == defeituoso)
+			return encontradoPixelDefeituoso;
+
+		if(monitor[indiceLinha + 1][indiceColuna] == apagado && (indiceLinha + 1) < numeroMaximoLinhas && (indiceLinha + 1 >= 0))
+		{
+			coordenadas[contador * 2] = indiceLinha + 1;
+			coordenadas[contador * 2 + 1] = indiceColuna;
+			contador++;
+			monitor[indiceLinha + 1][indiceColuna] = aceso;
+			MostrarMonitor(tempoEspera, &monitor[0], numeroMaximoLinhas, numeroMaximoColunas);
+		}
+
+		if(monitor[indiceLinha][indiceColuna + 1] == apagado && (indiceColuna + 1) < numeroMaximoLinhas && (indiceColuna + 1 >= 0))
+		{
+			coordenadas[contador * 2] = indiceLinha ;
+			coordenadas[contador * 2 + 1] = indiceColuna + 1;
+			contador++;
+			monitor[indiceLinha][indiceColuna + 1] = aceso;
+			MostrarMonitor(tempoEspera, &monitor[0], numeroMaximoLinhas, numeroMaximoColunas);
+		}
+
+		if(monitor[indiceLinha - 1][indiceColuna] == apagado && (indiceLinha - 1) <numeroMaximoLinhas && (indiceLinha - 1 >= 0))
+		{
+			coordenadas[contador * 2] = indiceLinha - 1;
+			coordenadas[contador * 2 + 1] = indiceColuna;
+			contador++;
+			monitor[indiceLinha - 1][indiceColuna] = aceso;
+			MostrarMonitor(tempoEspera, &monitor[0], numeroMaximoLinhas, numeroMaximoColunas);
+		}
+
+		if(monitor[indiceLinha][indiceColuna - 1] == apagado && (indiceColuna - 1) < numeroMaximoLinhas && (indiceColuna - 1 >= 0))
+		{
+			coordenadas[contador * 2] = indiceLinha;
+			coordenadas[contador * 2 + 1] = indiceColuna - 1;
+			contador++;
+			monitor[indiceLinha ][indiceColuna - 1] = aceso;
+			MostrarMonitor(tempoEspera, &monitor[0], numeroMaximoLinhas, numeroMaximoColunas);
+		} 
+	}
+		
+	return ok;
+}
+
 /* $RCSfile$ */

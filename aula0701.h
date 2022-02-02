@@ -33,6 +33,7 @@ typedef enum
 	pontoLinhaInvalido,
 	pontoColunaInvalido,
 	encontradoPixelDefeituoso,
+	pontoNaLinha
 } tipoErros;
 
 typedef enum
@@ -76,6 +77,14 @@ DesenharPoligono (tipoPixel monitor [NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_COLUNAS
 					unsigned numeroVertices, /* E */
 					unsigned linhasVertices[NUMERO_MAXIMO_LINHAS], /* E */
 					unsigned colunasVertices[NUMERO_MAXIMO_COLUNAS] /* E */);
+
+tipoErros
+PreencherPoligono (useconds_t tempoEspera,
+					tipoPixel monitor [NUMERO_MAXIMO_LINHAS][NUMERO_MAXIMO_COLUNAS], 
+					unsigned numeroMaximoLinhas, 
+					unsigned numeroMaximoColunas, 
+					unsigned linha, 
+					unsigned coluna);
 
 #endif
 

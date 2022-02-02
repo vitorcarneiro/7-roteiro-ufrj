@@ -108,13 +108,13 @@ AULA0606OBJS = aula0601.o aula0606.o
 # -- Roteiro 6 /\ ---------------------------------------------------------------------------------
 
 # -- Roteiro 7 \/ ---------------------------------------------------------------------------------
-AULA07 = aula0702 aula0703 aula0704 aula0705
+AULA07 = aula0702 aula0703 aula0704 aula0705 aula0706
 
 AULA0702OBJS = aula0701.o aula0702.o
 AULA0703OBJS = aula0701.o aula0703.o libmonitor.a
 AULA0704OBJS = aula0701.o aula0704.o libmonitor.a
 AULA0705OBJS = aula0701.o aula0705.o libmonitor.a
-
+AULA0706OBJS = aula0701.o aula0706.o libmonitor.a
 # -- Roteiro 7 /\ ---------------------------------------------------------------------------------
 # /\ OBJS MACROS/\ --------------------------------------------------------------------------------
 
@@ -175,7 +175,8 @@ EXECS = aula0101\
 		aula0702\
 		aula0703\
 		aula0704\
-		aula0705
+		aula0705\
+		aula0706
 
 
 LIBS =	libmatematicarecursao.a\
@@ -399,7 +400,9 @@ aula0705: $(AULA0705OBJS)
 	$(LD) $(LFLAGS) -o $@ $(AULA0705OBJS) -L. -lmonitor
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
 	
-
+aula0706: $(AULA0706OBJS)
+	$(LD) $(LFLAGS) -o $@ $(AULA0706OBJS) -L. -lmonitor
+	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
 # -- Roteiro 7 /\ ----------------------------------------------------------------------------------
 
 
